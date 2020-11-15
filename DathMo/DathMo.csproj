@@ -144,7 +144,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resource\Staff.txt" />
+    <Content Include="UserData\DathMo\Staff.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
