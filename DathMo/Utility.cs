@@ -1,6 +1,8 @@
-﻿using HMUI;
+﻿using BeatSaberMarkupLanguage;
+using HMUI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,34 @@ namespace DathMo
         /// </summary>
         public static TMP_FontAsset MainTextFont
             => mainTextFont ?? (mainTextFont = Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(t => t.name == "Teko-Medium SDF No Glow"));
+
+        private static Material _noGlow;
+        public static Material UINoGlowMaterial
+        {
+            get
+            {
+                if (_noGlow == null) {
+                    _noGlow = Resources.FindObjectsOfTypeAll<Material>().FirstOrDefault(m => m.name == "UINoGlow");
+                    if (_noGlow != null) {
+                        _noGlow = Material.Instantiate(_noGlow);
+                    }
+                }
+                return _noGlow;
+            }
+        }
+
+        private static Shader _tmpNoGlowFontShader;
+        public static Shader TMPNoGlowFontShader
+        {
+            get
+            {
+                if (_tmpNoGlowFontShader == null) {
+                    _tmpNoGlowFontShader = Resources.FindObjectsOfTypeAll<TMP_FontAsset>().Last(f2 => f2.name == "Teko-Medium SDF No Glow")?.material?.shader;
+                }
+                return _tmpNoGlowFontShader;
+            }
+        }
+
         /// <summary>
         /// Creates a TextMeshProUGUI component.
         /// </summary>
@@ -41,9 +71,10 @@ namespace DathMo
         {
             GameObject gameObj = new GameObject("CustomUIText");
             gameObj.SetActive(false);
-
             CurvedTextMeshPro textMesh = gameObj.AddComponent<CurvedTextMeshPro>();
-            textMesh.font = MainTextFont;
+            FontManager.TryGetTMPFontByFamily("Segoe UI", out var font);
+            textMesh.font = font;
+            
             textMesh.rectTransform.SetParent(parent, false);
             textMesh.text = text;
             textMesh.fontSize = 4;
@@ -53,7 +84,6 @@ namespace DathMo
             textMesh.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             textMesh.rectTransform.sizeDelta = sizeDelta;
             textMesh.rectTransform.anchoredPosition = anchoredPosition;
-
             gameObj.SetActive(true);
             return textMesh;
         }

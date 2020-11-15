@@ -10,6 +10,8 @@ using UnityEngine;
 using IPALogger = IPA.Logging.Logger;
 using SiraUtil.Zenject;
 using DathMo.Installer;
+using BeatSaberMarkupLanguage;
+using System.IO;
 
 namespace DathMo
 {
@@ -50,8 +52,6 @@ namespace DathMo
         public void OnApplicationStart()
         {
             Log.Debug("OnApplicationStart");
-            new GameObject("DathMoController").AddComponent<DathMoController>();
-
         }
 
         [OnExit]

@@ -9,7 +9,7 @@ nokingood
 ネコノ
 
 動画編集
-にぼし
+にぼし(干物)
 
 背景素材作成
 にむ
@@ -27,15 +27,17 @@ hibit
 hibit
 
 コメント対応
-Rik
-YABUTUBAKI
-ねこようへい
 nokingood
+ねこようへい
+Rik
+椿(Yabutubaki)
+
+スタッフロール作成協力
+デンパ時計
 
 その他スタッフ
 すのー
-デンパ時計
-はぶりか
+Habryka
 
 コラボ動画編集
 霧雨屋
@@ -47,11 +49,11 @@ nokingood
 ねこようへい
 nokingood
 
-回転部門
-あうりん
-たけちよ
-ここない
-rage
+矢印部門
+Mozory
+すのー
+椿(Yabutubaki)
+月詠さん@Beatsaber VRC
 
 高難易度部門
 nokingood
@@ -61,22 +63,25 @@ emja
 
 ダンス部門
 霧雨屋
-ネイビー
-リンドブルー
-るしあ
+NAVY
+りんりぃ@rindoblue
+秋乃るしあ
 
-矢印部門
-スノー
-モゾリー
-YABUTUBAKI
-月詠
+回転部門
+Charlotte@あうりん
+たけちよ
+ここない
+rage_tht
 
-BGM
-Wobble 4Twin Saber
+振返り紹介BGM
+Wobble 4 Twin Sabers
 作曲:ラビィ淀橋
 
 翻訳
 hibit
 
-スペシャルサンクス
-ラゲサク
+Special thanks
+ragesaq
+
+スタッフロール使用曲
+Escape(OST VOL.1)
