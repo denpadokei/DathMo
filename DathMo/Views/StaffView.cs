@@ -46,7 +46,6 @@ namespace DathMo.Views
 
         #region member
         private AudioTimeSyncController audioTimeSyncController;
-        private PauseController pauseController;
         private FloatingScreen _floatingScreen;
         [UIComponent("staff")]
         private readonly TextMeshProUGUI _staffText;
@@ -59,15 +58,10 @@ namespace DathMo.Views
         #endregion
         // These methods are automatically called by Unity, you should remove any you aren't using.
         [Inject]
-        private void Constractor(AudioTimeSyncController audio, PauseController pause)
-        {
-            this.audioTimeSyncController = audio;
-            this.pauseController = pause;
-        }
+        private void Constractor(AudioTimeSyncController audio) => this.audioTimeSyncController = audio;
         #region UnityMethods
         private IEnumerator Start()
         {
-            Plugin.Log.Debug("Start call");
             yield return new WaitWhile(() => !this.verticalLayoutGroup || !this._staffText);
             FontManager.TryGetTMPFontByFamily("Segoe UI", out var font);
             this._staffText.font = font;
@@ -85,10 +79,7 @@ namespace DathMo.Views
             this._floatingScreen.transform.position = new Vector3(0f, 0.2f, this.startPosZ);
         }
 
-        private void Update()
-        {
-            this.MoveScreen();
-        }
+        private void Update() => this.MoveScreen();
         #endregion
         private void MoveScreen()
         {
@@ -103,7 +94,6 @@ namespace DathMo.Views
 
         public void Initialize()
         {
-            Plugin.Log.Debug("Initialize call");
             this._floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(50f, 100f), false, new Vector3(0f, 0.2f, -50f), Quaternion.Euler(90f, 0f, 0f));
             this._floatingScreen.transform.localScale = Vector3.one;
             this._floatingScreen.SetRootViewController(this, HMUI.ViewController.AnimationType.None);
