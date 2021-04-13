@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DathMo.Installer;
 using IPA;
-using IPA.Config;
-using IPA.Config.Stores;
-using UnityEngine.SceneManagement;
-using UnityEngine;
-using IPALogger = IPA.Logging.Logger;
 using SiraUtil.Zenject;
-using DathMo.Installer;
-using BeatSaberMarkupLanguage;
-using System.IO;
+using IPALogger = IPA.Logging.Logger;
 
 namespace DathMo
 {
@@ -49,16 +39,9 @@ namespace DathMo
         #endregion
 
         [OnStart]
-        public void OnApplicationStart()
-        {
-            Log.Debug("OnApplicationStart");
-        }
+        public void OnApplicationStart() => Log.Debug("OnApplicationStart");
 
         [OnExit]
-        public void OnApplicationQuit()
-        {
-            Log.Debug("OnApplicationQuit");
-
-        }
+        public void OnApplicationQuit() => Log.Debug("OnApplicationQuit");
     }
 }

@@ -1,11 +1,6 @@
 ﻿using BeatSaberMarkupLanguage;
 using HMUI;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -54,10 +49,7 @@ namespace DathMo
         /// <param name="text">The text to be displayed.</param>
         /// <param name="anchoredPosition">The position the button should be anchored to.</param>
         /// <returns>The newly created TextMeshProUGUI component.</returns>
-        public static CurvedTextMeshPro CreateText(RectTransform parent, string text, Vector2 anchoredPosition)
-        {
-            return CreateText(parent, text, anchoredPosition, new Vector2(60f, 10f));
-        }
+        public static CurvedTextMeshPro CreateText(RectTransform parent, string text, Vector2 anchoredPosition) => CreateText(parent, text, anchoredPosition, new Vector2(60f, 10f));
 
         /// <summary>
         /// Creates a TextMeshProUGUI component.
@@ -69,12 +61,12 @@ namespace DathMo
         /// <returns>The newly created TextMeshProUGUI component.</returns>
         public static CurvedTextMeshPro CreateText(RectTransform parent, string text, Vector2 anchoredPosition, Vector2 sizeDelta)
         {
-            GameObject gameObj = new GameObject("CustomUIText");
+            var gameObj = new GameObject("CustomUIText");
             gameObj.SetActive(false);
-            CurvedTextMeshPro textMesh = gameObj.AddComponent<CurvedTextMeshPro>();
+            var textMesh = gameObj.AddComponent<CurvedTextMeshPro>();
             FontManager.TryGetTMPFontByFamily("Segoe UI", out var font);
             textMesh.font = font;
-            
+
             textMesh.rectTransform.SetParent(parent, false);
             textMesh.text = text;
             textMesh.fontSize = 4;

@@ -1,43 +1,113 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BeatSaberMarkupLanguage;
+﻿using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.Attributes;
-using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.ViewControllers;
-using HMUI;
-using IPA.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace DathMo.Views
 {
     [HotReload]
-    internal class StaffView : BSMLAutomaticViewController
+    internal class StaffView : BSMLAutomaticViewController, IInitializable
     {
         // For this method of setting the ResourceName, this class must be the first class in the file.
         //public override string ResourceName => string.Join(".", GetType().Namespace, GetType().Name);
 
-        #region member
-        CurvedTextMeshPro _curvedTextMeshPro;
-        CurvedCanvasSettingsHelper _curvedCanvasSettingsHelper = new CurvedCanvasSettingsHelper();
-        #endregion
-
-        #region UnityMethods
-        void Awake()
+        private bool SetProperty<T>(ref T oldvalue, T newValue, [CallerMemberName] string member = null)
         {
-            this._curvedTextMeshPro = Utility.CreateText(this.rectTransform, "test message", new Vector2(0.5f, 0.5f), new Vector2(60f, 12000f));
-            this._curvedTextMeshPro.fontSize = 40;
-            this._curvedTextMeshPro.alignment = TMPro.TextAlignmentOptions.Midline;
-            this._curvedTextMeshPro.overflowMode = TMPro.TextOverflowModes.Overflow;
-            this._curvedCanvasSettingsHelper.GetCurvedCanvasSettings(this._curvedTextMeshPro.canvas).SetRadius(0f);
+            if (EqualityComparer<T>.Default.Equals(oldvalue, newValue)) {
+                return false;
+            }
+            oldvalue = newValue;
+            this.OnPropertyChanged(new PropertyChangedEventArgs(member));
+            return true;
+        }
+
+        private void OnPropertyChanged(PropertyChangedEventArgs e) => this.NotifyPropertyChanged(e.PropertyName);
+
+        /// <summary>説明 を取得、設定</summary>
+        private string staffText_;
+        [UIValue("staff-text")]
+        /// <summary>説明 を取得、設定</summary>
+        public string StaffText
+        {
+            get => this.staffText_;
+
+            set => this.SetProperty(ref this.staffText_, value);
+        }
+
+        #region member
+        private AudioTimeSyncController audioTimeSyncController;
+        private PauseController pauseController;
+        private FloatingScreen _floatingScreen;
+        [UIComponent("staff")]
+        private readonly TextMeshProUGUI _staffText;
+        [UIComponent("vertical-group")]
+        private readonly VerticalLayoutGroup verticalLayoutGroup;
+        private static readonly string _textFile = Path.Combine(Environment.CurrentDirectory, "UserData", "DathMo", "Staff.txt");
+        private float startPosZ;
+        private float endPosZ;
+        private float moveLength;
+        #endregion
+        // These methods are automatically called by Unity, you should remove any you aren't using.
+        [Inject]
+        private void Constractor(AudioTimeSyncController audio, PauseController pause)
+        {
+            this.audioTimeSyncController = audio;
+            this.pauseController = pause;
+        }
+        #region UnityMethods
+        private IEnumerator Start()
+        {
+            Plugin.Log.Debug("Start call");
+            yield return new WaitWhile(() => !this.verticalLayoutGroup || !this._staffText);
+            FontManager.TryGetTMPFontByFamily("Segoe UI", out var font);
+            this._staffText.font = font;
+            if (!Directory.Exists(Path.GetDirectoryName(_textFile))) {
+                Directory.CreateDirectory(Path.GetDirectoryName(_textFile));
+                using (var _ = File.Create(_textFile)) {
+                }
+            }
+            this.SetText(File.ReadAllText(_textFile));
+            Plugin.Log.Debug($"{this._staffText.preferredHeight}");
+            this._floatingScreen.ScreenSize = new Vector2(50f, this._staffText.preferredHeight + 2);
+            this.startPosZ = -4f - (this._floatingScreen.ScreenSize.y / 2f);
+            this.endPosZ = 8f + (this._floatingScreen.ScreenSize.y / 2f);
+            this.moveLength = this.endPosZ - this.startPosZ;
+            this._floatingScreen.transform.position = new Vector3(0f, 0.2f, this.startPosZ);
+        }
+
+        private void Update()
+        {
+            this.MoveScreen();
         }
         #endregion
-
-        public void SetText(string value)
+        private void MoveScreen()
         {
-            this._curvedTextMeshPro.text = value;
+            if (this.startPosZ == 0 || this.endPosZ == 0) {
+                return;
+            }
+            var progress = this.audioTimeSyncController.songTime / this.audioTimeSyncController.songLength;
+            var diff = this.moveLength * progress;
+            this._floatingScreen.ScreenPosition = new Vector3(0f, 0.2f, this.startPosZ + diff);
+        }
+        public void SetText(string value) => this.StaffText = value;
+
+        public void Initialize()
+        {
+            Plugin.Log.Debug("Initialize call");
+            this._floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(50f, 100f), false, new Vector3(0f, 0.2f, -50f), Quaternion.Euler(90f, 0f, 0f));
+            this._floatingScreen.transform.localScale = Vector3.one;
+            this._floatingScreen.SetRootViewController(this, HMUI.ViewController.AnimationType.None);
+            this._floatingScreen.gameObject.layer = 0;
         }
     }
 }
