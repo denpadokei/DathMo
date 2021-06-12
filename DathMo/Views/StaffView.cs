@@ -96,7 +96,7 @@ namespace DathMo.Views
         {
             this._floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(50f, 100f), false, new Vector3(0f, 0.2f, -50f), Quaternion.Euler(90f, 0f, 0f));
             this._floatingScreen.transform.localScale = Vector3.one;
-            this._floatingScreen.SetRootViewController(this, HMUI.ViewController.AnimationType.None);
+            this._floatingScreen.SetRootViewController(this, AnimationType.None);
             this._floatingScreen.gameObject.layer = 0;
         }
     }
