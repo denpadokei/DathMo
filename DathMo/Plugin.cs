@@ -1,5 +1,7 @@
 ﻿using DathMo.Installer;
 using IPA;
+using IPA.Config;
+using IPA.Config.Stores;
 using SiraUtil.Zenject;
 using IPALogger = IPA.Logging.Logger;
 
@@ -18,12 +20,15 @@ namespace DathMo
         /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
         /// Only use [Init] with one Constructor.
         /// </summary>
-        public void Init(IPALogger logger, Zenjector zenjector)
+        public void Init(IPALogger logger, Zenjector zenjector, Config conf)
         {
             Instance = this;
             Log = logger;
             Log.Info("DathMo initialized.");
-            zenjector.OnGame<DathMoInstaller>();
+            Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
+            Log.Debug("Config loaded");
+            zenjector.OnMenu<DathMoMenuInstaller>();
+            zenjector.OnGame<DathMoGameInstaller>();
         }
 
         #region BSIPA Config

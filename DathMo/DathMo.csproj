@@ -117,11 +117,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Installer\DathMoInstaller.cs" />
+    <Compile Include="Installer\DathMoGameInstaller.cs" />
+    <Compile Include="Installer\DathMoMenuInstaller.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="Views\SettingView.cs" />
     <Compile Include="Views\StaffView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +135,9 @@
     <None Include="DathMo.csproj.user" Condition="Exists('DathMo.csproj.user')" />
     <EmbeddedResource Include="Views\StaffView.bsml">
       <DependentUpon>StaffView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SettingView.bsml">
+      <DependentUpon>SettingView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

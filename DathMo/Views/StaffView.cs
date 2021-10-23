@@ -2,6 +2,7 @@
 using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.ViewControllers;
+using DathMo.Configuration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,6 +45,8 @@ namespace DathMo.Views
             set => this.SetProperty(ref this.staffText_, value);
         }
 
+        public bool Enable => PluginConfig.Instance.Enable;
+
         #region member
         private AudioTimeSyncController audioTimeSyncController;
         private FloatingScreen _floatingScreen;
@@ -62,6 +65,10 @@ namespace DathMo.Views
         #region UnityMethods
         private IEnumerator Start()
         {
+            if (!this.Enable) {
+                yield break;
+            }
+
             yield return new WaitWhile(() => !this.verticalLayoutGroup || !this._staffText);
             FontManager.TryGetTMPFontByFamily("Segoe UI", out var font);
             this._staffText.font = font;
@@ -83,6 +90,9 @@ namespace DathMo.Views
         #endregion
         private void MoveScreen()
         {
+            if (!this.Enable) {
+                return;
+            }
             if (this.startPosZ == 0 || this.endPosZ == 0) {
                 return;
             }
@@ -94,6 +104,9 @@ namespace DathMo.Views
 
         public void Initialize()
         {
+            if (!this.Enable) {
+                return;
+            }
             this._floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(50f, 100f), false, new Vector3(0f, 0.2f, -50f), Quaternion.Euler(90f, 0f, 0f));
             this._floatingScreen.transform.localScale = Vector3.one;
             this._floatingScreen.SetRootViewController(this, AnimationType.None);
