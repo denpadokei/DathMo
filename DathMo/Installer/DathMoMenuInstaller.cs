@@ -13,7 +13,7 @@ namespace DathMo.Installer
     {
         public override void InstallBindings()
         {
-            this.Container.BindInterfacesAndSelfTo<SettingView>().FromNewComponentAsViewController().AsSingle().NonLazy();
+            this.Container.BindInterfacesAndSelfTo<SettingView>().FromNewComponentAsViewController().AsCached().NonLazy();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.GameplaySetup;
 using BeatSaberMarkupLanguage.Settings;
 using BeatSaberMarkupLanguage.ViewControllers;
 using DathMo.Configuration;
@@ -26,7 +27,13 @@ namespace DathMo.Views
 
         public void Initialize()
         {
-            BSMLSettings.instance.AddSettingsMenu("DathMo", ResourceName, this);
+            GameplaySetup.instance?.RemoveTab("DathMo");
+            GameplaySetup.instance?.AddTab("DathMo", this.ResourceName, this);
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            GameplaySetup.instance?.RemoveTab("DathMo");
         }
     }
 }
