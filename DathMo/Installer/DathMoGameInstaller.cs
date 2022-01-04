@@ -1,5 +1,5 @@
 ﻿using DathMo.Views;
-using SiraUtil;
+using Zenject;
 
 namespace DathMo.Installer
 {
