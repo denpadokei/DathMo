@@ -27,8 +27,8 @@ namespace DathMo
             Log.Info("DathMo initialized.");
             Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
             Log.Debug("Config loaded");
-            zenjector.OnMenu<DathMoMenuInstaller>();
-            zenjector.OnGame<DathMoGameInstaller>();
+            zenjector.Install<DathMoMenuInstaller>(Location.Menu);
+            zenjector.Install<DathMoGameInstaller>(Location.Player);
         }
 
         #region BSIPA Config
