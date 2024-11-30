@@ -27,13 +27,13 @@ namespace DathMo.Views
 
         public void Initialize()
         {
-            GameplaySetup.instance?.RemoveTab("DathMo");
-            GameplaySetup.instance?.AddTab("DathMo", this.ResourceName, this);
+            GameplaySetup.Instance?.RemoveTab("DathMo");
+            GameplaySetup.Instance?.AddTab("DathMo", this.ResourceName, this);
         }
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            GameplaySetup.instance?.RemoveTab("DathMo");
+            GameplaySetup.Instance?.RemoveTab("DathMo");
         }
     }
 }
